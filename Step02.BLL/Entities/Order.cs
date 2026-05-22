@@ -1,4 +1,4 @@
-﻿namespace Step02.DAL.Entities;
+﻿namespace Step02.BLL.Entities;
 
 public class Order
 {

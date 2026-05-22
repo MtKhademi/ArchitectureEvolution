@@ -1,76 +1,53 @@
-﻿using Step02.DAL.Data;
-using Step02.DAL.Entities;
+﻿using Step02.BLL.Entities;
+using Step02.BLL.Repositorties;
 
 namespace Step02.BLL;
 
 public class ProductService
 {
-    private readonly DatabaseContext _dbContext;
+    private readonly IProductRepository _productRepository;
 
-    public ProductService(DatabaseContext dbContext)
+    public ProductService(IProductRepository productRepository)
     {
-        _dbContext = dbContext;
+        _productRepository = productRepository;
     }
+
 
     public Product AddNewProduct(string name, decimal price, int quantity)
     {
-        //- Validation
-        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException("name");
-        if (price <= 0) throw new ArgumentOutOfRangeException("Price can not be or less zero.");
-        if (quantity < 0) throw new ArgumentOutOfRangeException("Quantity can not be negative.");
+        if (_productRepository.GetAll().Any(x => x.Name.Equals(name))) throw new Exception("Name must be unique.");
 
-        //- add to db
         var product = new Product
         {
-            Id = DatabaseContext.ProductNextId++,
             Name = name,
             Price = price,
             StockQuantity = quantity
         };
-
-        _dbContext.Products.Add(product);
+        _productRepository.Add(product);
         return product;
     }
     public Product UpdateProduct(int productId, string name, decimal price, int quantity)
     {
-
-        //validation
-        if (productId < 0) throw new ArgumentOutOfRangeException($"{nameof(productId)} is zero");
-        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException($"{nameof(name)} can not be null or empty.");
-        if (price <= 0) throw new ArgumentOutOfRangeException($"{nameof(price)} can not be zero or less.");
-        if ((quantity < 0)) throw new ArgumentOutOfRangeException($"{nameof(quantity)} can not be negative");
-
-        var product = _dbContext.Products.FirstOrDefault(x => x.Id == productId);
-        if (product is null)
-            throw new KeyNotFoundException($"{nameof(product)} not found");
-
-        product.Price = price;
-        product.Name = name;
-        product.StockQuantity = quantity;
-
+        var product = new Product
+        {
+            Id = productId,
+            Name = name,
+            Price = price,
+            StockQuantity = quantity
+        };
+        _productRepository.Update(product);
         return product;
     }
+
     public Product DeleteProduct(int productId)
     {
-        if (productId < 0) throw new ArgumentOutOfRangeException($"{nameof(productId)} is zero");
-
-        var product = _dbContext.Products.FirstOrDefault(x => x.Id == productId);
-        if (product is null)
-            throw new KeyNotFoundException($"{nameof(product)} not found");
-
-        _dbContext.Products.Remove(product);
-
-        return product;
-
-    }
-    public List<Product> GetAllProduct() { return _dbContext.Products; }
-
-    public Product GetProductById(int productId)
-    {
-        var product = _dbContext.Products.FirstOrDefault(x => x.Id == productId);
-        if (product is null)
-            throw new KeyNotFoundException($"{nameof(product)} not found");
+        var product = _productRepository.GetById(productId);
+        _productRepository.Delete(productId);
 
         return product;
     }
+
+    public List<Product> GetAllProduct() => _productRepository.GetAll();
+
+    public Product GetProductById(int productId) => _productRepository.GetById(productId);
 }

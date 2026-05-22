@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Step02.BLL\Step02.BLL.csproj" />
+  </ItemGroup>
+
 </Project>

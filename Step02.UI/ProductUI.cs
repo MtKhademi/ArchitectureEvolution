@@ -43,7 +43,7 @@ internal static class ProductUI
         {
             var product = productService.AddNewProduct(productName, productPrice, productStockQuantity);
 
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine($"Product created successfully! : product id : {product.Id}");
         }
         catch (Exception ex)
