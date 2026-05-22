@@ -1,11 +1,13 @@
-﻿using Step02.BLL;
+﻿using Step02.BLL.Repositorties;
+using Step02.BLL.Services;
 using Step02.DAL.Data;
 using Step02.DAL.Repositories;
 using Step02.UI;
 
 var dbContext = new DatabaseContext();
-var productLoggingRepository = new ProductLoggingRepository(dbContext);
-var _productService = new ProductService(productLoggingRepository);
+IProductRepository productLoggingRepository = new ProductLoggingRepository(dbContext);
+IProductService _productService = new ProductLoggingService(
+    new ProductService(productLoggingRepository));
 
 ProductUI.SeedData(_productService);
 

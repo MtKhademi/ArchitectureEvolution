@@ -1,9 +1,9 @@
 ﻿using Step02.BLL.Entities;
 using Step02.BLL.Repositorties;
 
-namespace Step02.BLL;
+namespace Step02.BLL.Services;
 
-public class ProductService
+public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
 
@@ -47,7 +47,10 @@ public class ProductService
         return product;
     }
 
-    public List<Product> GetAllProduct() => _productRepository.GetAll();
+    public List<Product> GetAllProduct()
+    {
+        return _productRepository.GetAll();
+    }
 
     public Product GetProductById(int productId) => _productRepository.GetById(productId);
 }
