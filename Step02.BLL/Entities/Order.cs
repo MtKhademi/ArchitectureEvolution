@@ -7,6 +7,7 @@ public class Order
     public DateTime OrderDate { get; set; } = DateTime.Now;
     public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
+    public int UserId { get; set; }
 
     public decimal TotalPrice => Items.Sum(item => item.TotalPrice);
 

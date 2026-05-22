@@ -1,10 +1,14 @@
 ﻿using Step02.BLL.Entities;
+using Step02.BLL.Repositorties;
 
 namespace Step02.UI;
 
 public static class ProductUI
 {
     private static IProductService _productService;
+
+    public static int _currentUserId;
+    public static string _currentUserRole;
 
     public static void Initialize(IProductService productService)
     {
@@ -39,13 +43,22 @@ public static class ProductUI
         {
             Console.Clear();
             Console.WriteLine("╔══════════════════════════════════════╗");
-            Console.WriteLine("║       PRODUCT MANAGEMENT             ║");
+            Console.WriteLine("║       PRODUCT MANAGEMENT            ║");
             Console.WriteLine("╠══════════════════════════════════════╣");
-            Console.WriteLine("║  1. Add New Product                  ║");
-            Console.WriteLine("║  2. View All Products                ║");
-            Console.WriteLine("║  3. Update Product                   ║");
-            Console.WriteLine("║  4. Delete Product                   ║");
-            Console.WriteLine("║  5. Back to Main Menu                ║");
+            Console.WriteLine("║  1. View All Products               ║");
+
+            if (_currentUserRole == "Admin")
+            {
+                Console.WriteLine("║  2. Add New Product                 ║");
+                Console.WriteLine("║  3. Update Product                  ║");
+                Console.WriteLine("║  4. Delete Product                  ║");
+                Console.WriteLine("║  5. Back to Main Menu               ║");
+            }
+            else
+            {
+                Console.WriteLine("║  2. Back to Main Menu               ║");
+            }
+
             Console.WriteLine("╚══════════════════════════════════════╝");
             Console.Write("   Select: ");
 
@@ -53,17 +66,26 @@ public static class ProductUI
 
             try
             {
-                switch (choice)
+                if (_currentUserRole == "Admin")
                 {
-                    case "1": AddProduct(); break;
-                    case "2": ViewAllProducts(); break;
-                    case "3": UpdateProduct(); break;
-                    case "4": DeleteProduct(); break;
-                    case "5": return;
-                    default:
-                        Console.WriteLine("Invalid option!");
-                        Console.ReadKey();
-                        break;
+                    switch (choice)
+                    {
+                        case "1": ViewAllProducts(); break;
+                        case "2": AddProduct(); break;
+                        case "3": UpdateProduct(); break;
+                        case "4": DeleteProduct(); break;
+                        case "5": return;
+                        default: InvalidOption(); break;
+                    }
+                }
+                else
+                {
+                    switch (choice)
+                    {
+                        case "1": ViewAllProducts(); break;
+                        case "2": return;
+                        default: InvalidOption(); break;
+                    }
                 }
             }
             catch (Exception ex)
@@ -271,5 +293,16 @@ public static class ProductUI
 
         Console.WriteLine(new string('-', 75));
         Console.WriteLine($"  Total: {products.Count} products");
+    }
+
+    // ============================================================
+    // InvalidOption - پیام مشترک برای گزینه نامعتبر
+    // ============================================================
+    private static void InvalidOption()
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("⚠️  Invalid option! Please try again.");
+        Console.ResetColor();
+        Thread.Sleep(1000);
     }
 }

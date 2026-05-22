@@ -13,6 +13,7 @@ public interface IUserService
     User Deactivate(int id);
     User Activate(int id);
     User ChangePassword(int id, string oldPassword, string newPassword);
+    User ChangeRole(int id, string newRole);
 }
 
 
@@ -166,4 +167,18 @@ public class UserService : IUserService
     // Get all users
     // ============================================================
     public List<User> GetAll() => _userRepo.GetAll();
+
+
+    // ============================================================
+    // ChangeRole
+    // ============================================================
+    public User ChangeRole(int id, string newRole)
+    {
+        var user = GetById(id);
+
+        user.Role = newRole;
+        _userRepo.Update(user);
+
+        return user;
+    }
 }

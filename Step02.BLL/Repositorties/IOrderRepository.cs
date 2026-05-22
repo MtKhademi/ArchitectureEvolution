@@ -9,4 +9,6 @@ public interface IOrderRepository
     Order GetById(int id);
     List<Order> GetAll();
     List<Order> GetByStatus(OrderStatus status);
+
+    List<Order> GetByUserId(int userId);
 }

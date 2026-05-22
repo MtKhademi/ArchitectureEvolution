@@ -15,23 +15,28 @@ namespace Step02.BLL.Services;
 
 public interface IOrderService
 {
-    Order CreateOrder(List<int> productIds, List<int> quantities);
+    Order CreateOrder(int userId, List<int> productIds, List<int> quantities);
     Order GetOrderById(int orderId);
     List<Order> GetAllOrders();
     List<Order> GetOrdersByStatus(OrderStatus status);
     Order UpdateOrderStatus(int orderId, OrderStatus newStatus);
     Order CancelOrder(int orderId);
+
+    List<Order> GetMyOrders(int userId);
+    Order CancelMyOrder(int orderId, int userId);
 }
 
 public class OrderService : IOrderService
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IProductRepository _productRepository;
+    private readonly IUserRepository _userRepository;
 
-    public OrderService(IOrderRepository orderRepository, IProductRepository productRepository)
+    public OrderService(IOrderRepository orderRepository, IProductRepository productRepository, IUserRepository userRepository)
     {
         _orderRepository = orderRepository;
         _productRepository = productRepository;
+        _userRepository = userRepository;
     }
 
 
@@ -41,11 +46,17 @@ public class OrderService : IOrderService
         return UpdateOrderStatus(orderId, OrderStatus.Cancelled);
     }
 
-    public Order CreateOrder(List<int> productIds, List<int> quantities)
+    public Order CreateOrder(int userId, List<int> productIds, List<int> quantities)
     {
+
+
         //-> Validation
         if (productIds == null || productIds.Count == 0) throw new ArgumentException("Order must contain at least one product.");
         if (quantities == null || quantities.Count != productIds.Count) throw new ArgumentException("Product count and quantity count must match.");
+
+
+        //- Validation user
+        var user = _userRepository.GetById(userId);
 
 
         var orderItems = new List<OrderItem>();
@@ -78,6 +89,7 @@ public class OrderService : IOrderService
 
         var orderEntity = new Order()
         {
+            UserId = user.Id,
             Items = orderItems
         };
         _orderRepository.Add(orderEntity);
@@ -139,5 +151,29 @@ public class OrderService : IOrderService
                 $"Cannot change order status from '{currentStatus}' to '{newStatus}'. " +
                 $"Allowed: {string.Join(", ", allowedTransactions[currentStatus])}");
 
+    }
+
+
+
+    // ============================================================
+    // GetMyOrders - فقط سفارش‌های کاربر جاری
+    // ============================================================
+    public List<Order> GetMyOrders(int userId)
+    {
+        return _orderRepository.GetByUserId(userId);
+    }
+
+    // ============================================================
+    // CancelMyOrder - فقط سفارش خودش رو می‌تونه کنسل کنه
+    // ============================================================
+    public Order CancelMyOrder(int orderId, int userId)
+    {
+        var order = GetOrderById(orderId);
+
+        // ⭐ چک مالکیت
+        if (order.UserId != userId)
+            throw new UnauthorizedAccessException("You can only cancel your own orders.");
+
+        return CancelOrder(orderId); // از متد قبلی استفاده می‌کنیم
     }
 }
