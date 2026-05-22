@@ -1,5 +1,4 @@
-﻿using Step02.BLL;
-using Step02.BLL.Entities;
+﻿using Step02.BLL.Entities;
 using Step02.BLL.Services;
 
 namespace Step02.UI;
@@ -9,6 +8,9 @@ public static class OrderUI
     private static IOrderService _orderService;
     private static IProductService _productService;
 
+    public static int _currentUserId;
+    public static string _currentUserRole;
+
     public static void Initialize(IOrderService orderService, IProductService productService)
     {
         _orderService = orderService;
@@ -16,7 +18,7 @@ public static class OrderUI
     }
 
     // ============================================================
-    // منوی اصلی سفارش‌ها
+    // منوی اصلی - بر اساس Role تغییر می‌کنه
     // ============================================================
     public static void ShowOrderMenu()
     {
@@ -24,15 +26,27 @@ public static class OrderUI
         {
             Console.Clear();
             Console.WriteLine("╔══════════════════════════════════════╗");
-            Console.WriteLine("║         ORDER MANAGEMENT             ║");
+            Console.WriteLine("║         ORDER MANAGEMENT            ║");
             Console.WriteLine("╠══════════════════════════════════════╣");
-            Console.WriteLine("║  1. Create New Order                 ║");
-            Console.WriteLine("║  2. View All Orders                  ║");
-            Console.WriteLine("║  3. View Orders by Status            ║");
-            Console.WriteLine("║  4. View Order Details               ║");
-            Console.WriteLine("║  5. Update Order Status              ║");
-            Console.WriteLine("║  6. Cancel Order                     ║");
-            Console.WriteLine("║  7. Back to Main Menu                ║");
+            Console.WriteLine("║  1. Create New Order                ║");
+
+            if (_currentUserRole == "Admin")
+            {
+                Console.WriteLine("║  2. View All Orders                 ║");
+                Console.WriteLine("║  3. View Orders by Status           ║");
+                Console.WriteLine("║  4. View Order Details              ║");
+                Console.WriteLine("║  5. Update Order Status             ║");
+                Console.WriteLine("║  6. Cancel Any Order                ║");
+                Console.WriteLine("║  7. Back to Main Menu               ║");
+            }
+            else
+            {
+                Console.WriteLine("║  2. View My Orders                  ║");
+                Console.WriteLine("║  3. View My Order Details           ║");
+                Console.WriteLine("║  4. Cancel My Order                 ║");
+                Console.WriteLine("║  5. Back to Main Menu               ║");
+            }
+
             Console.WriteLine("╚══════════════════════════════════════╝");
             Console.Write("   Select: ");
 
@@ -40,19 +54,31 @@ public static class OrderUI
 
             try
             {
-                switch (choice)
+                if (_currentUserRole == "Admin")
                 {
-                    case "1": CreateNewOrder(); break;
-                    case "2": ViewAllOrders(); break;
-                    case "3": ViewOrdersByStatus(); break;
-                    case "4": ViewOrderDetails(); break;
-                    case "5": UpdateOrderStatus(); break;
-                    case "6": CancelOrder(); break;
-                    case "7": return;
-                    default:
-                        Console.WriteLine("Invalid option!");
-                        Console.ReadKey();
-                        break;
+                    switch (choice)
+                    {
+                        case "1": CreateNewOrder(); break;
+                        case "2": ViewAllOrders(); break;
+                        case "3": ViewOrdersByStatus(); break;
+                        case "4": ViewOrderDetails(); break;
+                        case "5": UpdateOrderStatus(); break;
+                        case "6": CancelOrder(); break;
+                        case "7": return;
+                        default: InvalidOption(); break;
+                    }
+                }
+                else
+                {
+                    switch (choice)
+                    {
+                        case "1": CreateNewOrder(); break;
+                        case "2": ViewMyOrders(); break;
+                        case "3": ViewMyOrderDetails(); break;
+                        case "4": CancelMyOrder(); break;
+                        case "5": return;
+                        default: InvalidOption(); break;
+                    }
                 }
             }
             catch (Exception ex)
@@ -184,7 +210,7 @@ public static class OrderUI
         }
 
         // ثبت سفارش
-        var order = _orderService.CreateOrder(selectedProducts, selectedQuantities);
+        var order = _orderService.CreateOrder(_currentUserId, selectedProducts, selectedQuantities);
 
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"\n✅ Order #{order.Id} created successfully!");
@@ -505,5 +531,103 @@ public static class OrderUI
         Console.WriteLine(new string('-', 50));
         Console.WriteLine($"  {"Total:",-30} {order.TotalPrice,10:C}");
         Console.WriteLine(new string('-', 50));
+    }
+
+
+    // ============================================================
+    // ViewMyOrders - فقط سفارش‌های کاربر جاری
+    // ============================================================
+    private static void ViewMyOrders()
+    {
+        Console.Clear();
+        Console.WriteLine("╔══════════════════════════════════════╗");
+        Console.WriteLine("║            MY ORDERS                ║");
+        Console.WriteLine("╚══════════════════════════════════════╝");
+
+        var orders = _orderService.GetMyOrders(_currentUserId);
+
+        if (orders.Count == 0)
+        {
+            Console.WriteLine("\nYou have no orders yet.");
+            Console.ReadKey();
+            return;
+        }
+
+        PrintOrdersTable(orders);
+        Console.ReadKey();
+    }
+
+    // ============================================================
+    // CancelMyOrder - فقط سفارش خودش
+    // ============================================================
+    private static void CancelMyOrder()
+    {
+        Console.Clear();
+        Console.Write("Order ID to cancel: ");
+        if (!int.TryParse(Console.ReadLine(), out var orderId)) return;
+
+        _orderService.CancelMyOrder(orderId, _currentUserId);
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine($"✅ Order #{orderId} cancelled. Items returned to stock.");
+        Console.ResetColor();
+        Console.ReadKey();
+    }
+
+    // ============================================================
+    // ViewMyOrderDetails - فقط سفارش خودش رو ببینه
+    // ============================================================
+    private static void ViewMyOrderDetails()
+    {
+        Console.Clear();
+        Console.WriteLine("╔══════════════════════════════════════╗");
+        Console.WriteLine("║        MY ORDER DETAILS              ║");
+        Console.WriteLine("╚══════════════════════════════════════╝");
+
+        // اول سفارش‌های خودش رو نشون می‌دیم که ID رو ببینه
+        var myOrders = _orderService.GetMyOrders(_currentUserId);
+
+        if (myOrders.Count == 0)
+        {
+            Console.WriteLine("\nYou have no orders.");
+            Console.ReadKey();
+            return;
+        }
+
+        PrintOrdersTable(myOrders);
+
+        Console.Write("\nOrder ID to view details: ");
+        if (!int.TryParse(Console.ReadLine(), out var orderId))
+        {
+            Console.WriteLine("❌ Invalid ID.");
+            Console.ReadKey();
+            return;
+        }
+
+        // چک مالکیت
+        var order = _orderService.GetOrderById(orderId);
+
+        if (order.UserId != _currentUserId)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("❌ This is not your order!");
+            Console.ResetColor();
+            Console.ReadKey();
+            return;
+        }
+
+        PrintOrderDetail(order);
+        Console.ReadKey();
+    }
+
+    // ============================================================
+    // InvalidOption - پیام مشترک برای گزینه نامعتبر
+    // ============================================================
+    private static void InvalidOption()
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("⚠️  Invalid option! Please try again.");
+        Console.ResetColor();
+        Thread.Sleep(1000);
     }
 }

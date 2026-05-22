@@ -45,4 +45,12 @@ public class OrderRepository : IOrderRepository
             .OrderByDescending(o => o.OrderDate)
             .ToList();
     }
+
+    public List<Order> GetByUserId(int userId)
+    {
+        return _db.Orders
+             .Where(o => o.UserId == userId)
+             .OrderByDescending(o => o.OrderDate)
+             .ToList();
+    }
 }
