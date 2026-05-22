@@ -5,7 +5,7 @@ namespace Step02.UI;
 internal static class ProductUI
 {
 
-    public static void SeedData(ProductService productService)
+    public static void SeedData(IProductService productService)
     {
         if (productService.GetAllProduct().Any()) return;
 
@@ -17,7 +17,7 @@ internal static class ProductUI
 
     }
 
-    public static void AddProduct(ProductService productService)
+    public static void AddProduct(IProductService productService)
     {
         Console.Clear();
         Console.WriteLine("======== Add new a product ============");
@@ -52,7 +52,7 @@ internal static class ProductUI
         }
     }
 
-    public static void ViewAllProducts(ProductService productService)
+    public static void ViewAllProducts(IProductService productService)
     {
         try
         {
@@ -71,7 +71,7 @@ internal static class ProductUI
         }
     }
 
-    public static void UpdateAProduct(ProductService productService)
+    public static void UpdateAProduct(IProductService productService)
     {
         try
         {
@@ -115,7 +115,7 @@ internal static class ProductUI
         }
     }
 
-    public static void DeleteAProduct(ProductService productService)
+    public static void DeleteAProduct(IProductService productService)
     {
         try
         {
