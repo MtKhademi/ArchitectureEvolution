@@ -1,5 +1,5 @@
-﻿using Step02.BLL.Entities;
-using Step02.BLL.Services;
+﻿using Step02.BLL.Services;
+using Step02.DAL.Entities;
 
 namespace Step02.UI;
 
@@ -138,6 +138,7 @@ public static class OrderUI
             if (productId == 0) break;
 
             var product = _productService.GetProductById(productId);
+           
             if (selectedProducts.Contains(productId))
             {
                 Console.WriteLine($"⚠️  Product '{product.Name}' already selected. Use update order to modify.");

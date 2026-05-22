@@ -1,4 +1,4 @@
-﻿using Step02.BLL.Entities;
+﻿using Step02.DAL.Entities;
 using System.Diagnostics;
 
 public class ProductLoggingService : IProductService

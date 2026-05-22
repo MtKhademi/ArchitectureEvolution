@@ -1,39 +1,15 @@
-﻿using Step02.BLL.Repositorties;
-using Step02.BLL.Services;
-using Step02.DAL.Data;
-using Step02.DAL.Repositories;
+﻿using Step02.Common;
 using Step02.UI;
 
-// ============================================================
-// Database
-// ============================================================
-var db = new DatabaseContext();
 
-// ============================================================
-// Repositories
-// ============================================================
-IProductRepository productRepo = new ProductRepository(db);
-IOrderRepository orderRepo = new OrderRepository(db);
-IUserRepository userRepo = new UserRepository(db);
-
-// ============================================================
-// Services
-// ============================================================
-IProductService realProductService = new ProductService(productRepo);
-IProductService productService = new ProductLoggingService(realProductService);
-
-IOrderService orderService = new OrderService(orderRepo, productRepo, userRepo);
-//IOrderService orderService = new OrderLoggingService(realOrderService);
-
-IUserService userService = new UserService(userRepo);
-//IUserService userService = new UserLoggingService(realUserService);
+var DI = new DependencyContainer();
 
 // ============================================================
 // UI Initialization
 // ============================================================
-ProductUI.Initialize(productService);
-OrderUI.Initialize(orderService, productService);
-UserUI.Initialize(userService);
+ProductUI.Initialize(DI.ProductService);
+OrderUI.Initialize(DI.OrderService, DI.ProductService);
+UserUI.Initialize(DI.UserService);
 
 // ============================================================
 // Seed Data
