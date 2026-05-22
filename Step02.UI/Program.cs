@@ -1,9 +1,11 @@
 ﻿using Step02.BLL;
 using Step02.DAL.Data;
+using Step02.DAL.Repositories;
 using Step02.UI;
 
 var dbContext = new DatabaseContext();
-var _productService = new ProductService(dbContext);
+var productLoggingRepository = new ProductLoggingRepository(dbContext);
+var _productService = new ProductService(productLoggingRepository);
 
 ProductUI.SeedData(_productService);
 
