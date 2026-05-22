@@ -20,6 +20,7 @@ public class ProductRepository : IProductRepository
         if (product.Price <= 0) throw new ArgumentOutOfRangeException("Price can not be or less zero.");
         if (product.StockQuantity < 0) throw new ArgumentOutOfRangeException("Quantity can not be negative.");
 
+        product.Id = DatabaseContext.ProductNextId++;
         _dbContext.Products.Add(product);
     }
 

@@ -4,58 +4,63 @@ using Step02.DAL.Data;
 using Step02.DAL.Repositories;
 using Step02.UI;
 
-var dbContext = new DatabaseContext();
-IProductRepository productLoggingRepository = new ProductLoggingRepository(dbContext);
-IProductService _productService = new ProductLoggingService(
-    new ProductService(productLoggingRepository));
+// Database
+var db = new DatabaseContext();
 
-ProductUI.SeedData(_productService);
+// Repositories
+IProductRepository productRepo = new ProductRepository(db);
+IOrderRepository orderRepo = new OrderRepository(db);
 
+// Services
+IProductService realProductService = new ProductService(productRepo);
+IProductService productService = new ProductLoggingService(realProductService);
+
+IOrderService orderService = new OrderService(orderRepo, productRepo);
+//IOrderService orderService = new OrderLoggingService(realOrderService);
+
+// UI
+ProductUI.Initialize(productService);
+OrderUI.Initialize(orderService, productService);
+
+ProductUI.SeedData();
+
+// Main Loop
 while (true)
 {
-    var choose = ShowMenu();
-    switch (choose)
+    Console.Clear();
+    Console.WriteLine("╔══════════════════════════════════════╗");
+    Console.WriteLine("║     ORDER MANAGEMENT SYSTEM          ║");
+    Console.WriteLine("╠══════════════════════════════════════╣");
+    Console.WriteLine("║  1. Product Management               ║");
+    Console.WriteLine("║  2. Order Management                 ║");
+    Console.WriteLine("║  3. Exit                             ║");
+    Console.WriteLine("╚══════════════════════════════════════╝");
+    Console.Write("   Select: ");
+
+    var choice = Console.ReadLine();
+
+    try
     {
-        case "1":
-            ProductUI.AddProduct(_productService);
-            break;
-        case "2":
-            ProductUI.ViewAllProducts(_productService);
-            break;
-        case "3":
-            ProductUI.UpdateAProduct(_productService);
-            break;
-        case "4":
-            ProductUI.DeleteAProduct(_productService);
-            break;
-        //case "5":
-        //    CreateANewOrder();
-        //    break;
-        //case "6":
-        //    ViewAllOrders();
-        //    break;
-        case "7":
-            Console.WriteLine("Exiting the program...");
-            break;
-        default:
-            Console.WriteLine("Invalid option. Please choose a number between 1 and 5.");
-            break;
+        switch (choice)
+        {
+            case "1":
+                ProductUI.ShowProductMenu();
+                break;
+            case "2":
+                OrderUI.ShowOrderMenu();
+                break;
+            case "3":
+                Console.WriteLine("Goodbye!");
+                return;
+            default:
+                Console.WriteLine("Invalid option!");
+                Console.ReadKey();
+                break;
+        }
     }
-
-    if (choose == "7") break;
-}
-
-string ShowMenu()
-{
-    Console.WriteLine("========== Product management system ==========");
-    Console.WriteLine(" 1. Add a new product");
-    Console.WriteLine(" 2. View all products");
-    Console.WriteLine(" 3. Update a product");
-    Console.WriteLine(" 4. Delete a product");
-    Console.WriteLine(" 5. Create a new order");
-    Console.WriteLine(" 6. View all orders");
-    Console.WriteLine(" 7. Exit");
-
-    Console.Write("Please choose an option (1-5): ");
-    return Console.ReadLine();
+    catch (Exception ex)
+    {
+        ex.LogOnConsole();
+        Console.ReadKey();
+    }
 }

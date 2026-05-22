@@ -57,15 +57,15 @@ public class ProductLoggingService : IProductService
 
     public Product GetProductById(int productId)
     {
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine($"🔍 Searching for product ID: {productId}");
-        Console.ResetColor();
+        //Console.ForegroundColor = ConsoleColor.Cyan;
+        //Console.WriteLine($"🔍 Searching for product ID: {productId}");
+        //Console.ResetColor();
 
         var product = _inner.GetProductById(productId);
 
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"✅ Found: {product.Name} | Price: {product.Price:C}");
-        Console.ResetColor();
+        //Console.ForegroundColor = ConsoleColor.Green;
+        //Console.WriteLine($"✅ Found: {product.Name} | Price: {product.Price:C}");
+        //Console.ResetColor();
 
         return product;
     }
