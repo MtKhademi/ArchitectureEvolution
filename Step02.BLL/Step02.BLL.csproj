@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Step02.Common\Step02.Common.csproj" />
+    <ProjectReference Include="..\Step02.DAL\Step02.DAL.csproj" />
   </ItemGroup>
 
 </Project>

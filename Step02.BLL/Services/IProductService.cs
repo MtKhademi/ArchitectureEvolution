@@ -1,4 +1,4 @@
-using Step02.BLL.Entities;
+using Step02.DAL.Entities;
 
 public interface IProductService
 {

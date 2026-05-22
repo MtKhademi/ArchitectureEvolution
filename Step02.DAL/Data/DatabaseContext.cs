@@ -1,4 +1,4 @@
-﻿using Step02.BLL.Entities;
+﻿using Step02.DAL.Entities;
 
 namespace Step02.DAL.Data;
 

@@ -1,4 +1,4 @@
-﻿namespace Step02.BLL.Entities;
+﻿namespace Step02.DAL.Entities;
 
 public class Product
 {

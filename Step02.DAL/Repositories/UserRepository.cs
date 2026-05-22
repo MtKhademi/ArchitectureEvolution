@@ -1,6 +1,6 @@
-﻿using Step02.BLL.Entities;
-using Step02.BLL.Repositorties;
-using Step02.DAL.Data;
+﻿using Step02.DAL.Data;
+using Step02.DAL.Entities;
+using Step02.DAL.Repositorties;
 
 namespace Step02.DAL.Repositories;
 

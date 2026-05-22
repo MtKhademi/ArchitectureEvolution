@@ -1,6 +1,6 @@
-﻿using Step02.BLL.Entities;
+﻿using Step02.DAL.Entities;
 
-namespace Step02.BLL.Repositorties;
+namespace Step02.DAL.Repositorties;
 
 public interface IOrderRepository
 {

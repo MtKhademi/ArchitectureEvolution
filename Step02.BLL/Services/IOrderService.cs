@@ -1,6 +1,5 @@
-﻿using Step02.BLL.Entities;
-using Step02.BLL.Repositorties;
-using System.Threading.Channels;
+﻿using Step02.DAL.Entities;
+using Step02.DAL.Repositorties;
 
 namespace Step02.BLL.Services;
 
@@ -28,6 +27,7 @@ public interface IOrderService
 
 public class OrderService : IOrderService
 {
+    private readonly IOrderRepository _orderRepository;
     private readonly IOrderRepository _orderRepository;
     private readonly IProductRepository _productRepository;
     private readonly IUserRepository _userRepository;
