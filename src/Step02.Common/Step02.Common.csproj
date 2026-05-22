@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\src\Step02.Common\Step02.Common.csproj" />
-  </ItemGroup>
-
 </Project>

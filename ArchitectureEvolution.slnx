@@ -4,6 +4,7 @@
     <File Path="Step02ReadMe.md" />
   </Folder>
   <Folder Name="/src/">
+    <Project Path="src/Step02.Common/Step02.Common.csproj" Id="1ec8e454-6f0e-4f66-92dc-cd6532e4e9ed" />
     <Project Path="Stage01.BasicConsole/Stage01.BasicConsole.csproj" Id="8acc4bde-32a0-4b7f-94f1-366c26628610" />
     <Project Path="Step02.BLL/Step02.BLL.csproj" Id="196c86a8-81f0-41e1-8531-cbc506bd7ff5" />
     <Project Path="Step02.DAL/Step02.DAL.csproj" Id="cd2e1e51-f2b9-437a-857f-86402caf862f" />
