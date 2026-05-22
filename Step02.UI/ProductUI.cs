@@ -1,5 +1,4 @@
-﻿using Step02.BLL.Repositorties;
-using Step02.DAL.Entities;
+﻿using Step02.DAL.Entities;
 
 namespace Step02.UI;
 

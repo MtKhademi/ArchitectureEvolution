@@ -28,7 +28,6 @@ public interface IOrderService
 public class OrderService : IOrderService
 {
     private readonly IOrderRepository _orderRepository;
-    private readonly IOrderRepository _orderRepository;
     private readonly IProductRepository _productRepository;
     private readonly IUserRepository _userRepository;
 
