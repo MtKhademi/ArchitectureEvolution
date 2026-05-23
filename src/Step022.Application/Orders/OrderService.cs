@@ -1,8 +1,6 @@
-﻿using Step017.Domain.Entities;
+﻿namespace Step022.Application.Orders;
 
-namespace Step022.Application.Orders;
-
-internal class OrderService
+internal class OrderService : IOrderService
 {
 
     private readonly IOrderRepository _orderRepo;
