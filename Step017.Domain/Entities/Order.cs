@@ -1,8 +1,12 @@
-﻿namespace Step017.Domain.Entities;
+﻿//===============================
+// Create by mt.khademi
+//==============================
+
+namespace Step017.Domain.Entities;
 
 public class Order
 {
-    public int Id { get; private set; }
+    public int Id { get; set; }
     public DateTime OrderDate { get; private set; } = DateTime.Now;
     public OrderStatus Status { get; private set; } = OrderStatus.Pending;
     public int UserId { get; private set; }
@@ -144,13 +148,4 @@ public class OrderItem
         return (ProductId, Quantity);
     }
 
-}
-
-public enum OrderStatus
-{
-    Pending,
-    Confirmed,
-    Shipped,
-    Delivered,
-    Cancelled
 }
