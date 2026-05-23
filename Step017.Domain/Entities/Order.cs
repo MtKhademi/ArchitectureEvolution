@@ -45,7 +45,7 @@ public class Order
         return order;
     }
 
-
+    ///TODO : اینها مشکل داشتن . بنظر استیت های کمی چک شده اند . 
     public void Confirm()
     {
         if (Status != OrderStatus.Pending)
@@ -118,7 +118,7 @@ public class OrderItem
 
     }
 
-    public static OrderItem Create(int productId, string productName, decimal unitPrice, int quantity)
+    public static OrderItem Create(int productId, string productName, int quantity, decimal unitPrice)
     {
         if (productId <= 0)
             throw new ArgumentException("Invalid product ID.");

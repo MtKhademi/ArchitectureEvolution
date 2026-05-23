@@ -24,6 +24,7 @@ public class User
 
     public static User Register(string username, string passwordHash)
     {
+   
         if (string.IsNullOrWhiteSpace(username))
             throw new ArgumentException("Username is required.");
 
