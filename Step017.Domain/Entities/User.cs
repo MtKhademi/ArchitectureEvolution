@@ -3,7 +3,7 @@
 
 public class User
 {
-    public int Id { get; private set; }
+    public int Id { get; set; }
     public string Username { get; private set; }
     public string PasswordHash { get; private set; }
     public string Role { get; private set; }
@@ -98,4 +98,8 @@ public class User
 
         IsActive = true;
     }
+
+
+    internal void SetId(int id) => Id = id;
+
 }

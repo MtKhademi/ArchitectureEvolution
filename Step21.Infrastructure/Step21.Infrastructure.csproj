@@ -6,7 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-	<ItemGroup>
-		<InternalsVisibleTo Include="Step21.Infrastructure"/>
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Step017.Domain\Step017.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
