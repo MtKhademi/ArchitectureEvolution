@@ -5,6 +5,7 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Step02.Common/Step02.Common.csproj" Id="1ec8e454-6f0e-4f66-92dc-cd6532e4e9ed" />
+    <Project Path="src/Step022.Application/Step022.Application.csproj" Id="4ae7dc7e-6445-4f02-b9b6-33b4d997a12e" />
     <Project Path="Stage01.BasicConsole/Stage01.BasicConsole.csproj" Id="8acc4bde-32a0-4b7f-94f1-366c26628610" />
     <Project Path="Step017.Domain/Step017.Domain.csproj" Id="1eca68cc-3eaa-4c3d-be53-f59135bc2b8b" />
     <Project Path="Step02.BLL/Step02.BLL.csproj" Id="196c86a8-81f0-41e1-8531-cbc506bd7ff5" />

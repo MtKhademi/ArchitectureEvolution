@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Step017.Domain\Step017.Domain.csproj" />
+    <ProjectReference Include="..\Step02.Common\Step02.Common.csproj" />
+  </ItemGroup>
+
+</Project>

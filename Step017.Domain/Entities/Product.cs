@@ -55,7 +55,7 @@ public class Product
         StockQuantity += quantity;
     }
 
-    public void UodateInto(string newName, int newPrice)
+    public void UpdateInfo(string newName, decimal newPrice)
     {
         if (string.IsNullOrWhiteSpace(newName))
             throw new ArgumentException("Name cannot be empty.");
