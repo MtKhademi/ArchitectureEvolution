@@ -1,8 +1,6 @@
-﻿using Step017.Domain.Entities;
+﻿namespace Step022.Application.Products;
 
-namespace Step022.Application.Products;
-
-internal class ProductService
+internal class ProductService : IProductService 
 {
 
     private readonly IProductRepository _productRepo;

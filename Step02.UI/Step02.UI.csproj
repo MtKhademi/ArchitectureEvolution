@@ -8,8 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Step02.BLL\Step02.BLL.csproj" />
-    <ProjectReference Include="..\Step02.DAL\Step02.DAL.csproj" />
+    <ProjectReference Include="..\src\Step022.Application\Step022.Application.csproj" />
+    <ProjectReference Include="..\Step017.Domain\Step017.Domain.csproj" />
+    <ProjectReference Include="..\Step21.Infrastructure\Step21.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

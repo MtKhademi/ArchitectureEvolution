@@ -120,7 +120,7 @@ public class OrderItem
 
     public static OrderItem Create(int productId, string productName, int quantity, decimal unitPrice)
     {
-        if (productId <= 0)
+        //if (productId <= 0)
             throw new ArgumentException("Invalid product ID.");
 
 
