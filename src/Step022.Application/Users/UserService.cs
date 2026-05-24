@@ -1,9 +1,8 @@
-﻿using Step017.Domain.Entities;
-using Step02.Common;
+﻿using Step02.Common;
 
 namespace Step022.Application.Users;
 
-internal class UserService
+public class UserService : IUserService
 {
     private readonly IUserRepository _userRepo;
 

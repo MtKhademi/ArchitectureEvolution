@@ -1,6 +1,6 @@
 ﻿namespace Step022.Application.Orders;
 
-internal class OrderService : IOrderService
+public class OrderService : IOrderService
 {
 
     private readonly IOrderRepository _orderRepo;
@@ -60,7 +60,10 @@ internal class OrderService : IOrderService
 
     public List<Order> GetAllOrders()
     {
+        // Log Service
         return _orderRepo.GetAll();
+        
+        // Log Response service
     }
 
     public List<Order> GetMyOrders(int userId)

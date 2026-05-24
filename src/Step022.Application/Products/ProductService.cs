@@ -1,6 +1,6 @@
 ﻿namespace Step022.Application.Products;
 
-internal class ProductService : IProductService 
+public class ProductService : IProductService 
 {
 
     private readonly IProductRepository _productRepo;

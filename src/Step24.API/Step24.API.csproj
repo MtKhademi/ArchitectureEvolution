@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Step017.Domain\Step017.Domain.csproj" />
+    <ProjectReference Include="..\..\Step21.Infrastructure\Step21.Infrastructure.csproj" />
+    <ProjectReference Include="..\Step02.Common\Step02.Common.csproj" />
+    <ProjectReference Include="..\Step022.Application\Step022.Application.csproj" />
+  </ItemGroup>
+
+</Project>
